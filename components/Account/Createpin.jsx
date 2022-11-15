@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import {createNewAccount} from './../utils/pocketbase'
+import {createNewAccount} from '../../utils/pocketbase'
 import PocketBase from 'pocketbase';
 const client = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
 export default function Createpin({ loginString }) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import Account from './Account'
-import { getAccount } from '../utils/pocketbase'
+import { getAccount } from '../../utils/pocketbase'
 export default function Pin({ loginString, defPin }) {
     const [pin, setPin] = React.useState('')
     const [ActualPin, setActualPin] = React.useState('')

@@ -2,7 +2,7 @@ import React from 'react'
 import Pin from './Pin'
 import Createaccount from './Createaccount'
 
-import { getAccount } from '../utils/pocketbase'
+import { getAccount } from '../../utils/pocketbase'
 
 const localStorage = typeof window !== `undefined` ? window.localStorage : null;
 export default function Login() {

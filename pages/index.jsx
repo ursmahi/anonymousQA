@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Login from '../components/Login' 
+import Login from '../components/Account/Login' 
 const Home= () => {
   return (
     <div className="">
