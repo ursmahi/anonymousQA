@@ -18,7 +18,8 @@ export default function Login() {
       if (res.loginString === loginString) {
         setdefPin(res.userpin)
         setOpenPin(true)
-        localStorage.setItem('loginString', loginString)
+        localStorage.setItem('loginString', loginString);
+        sessionStorage.clear();
       }
     })
   }

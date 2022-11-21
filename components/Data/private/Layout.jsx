@@ -1,22 +1,54 @@
 import React from 'react'
-import Answer from './Answer'
+import Navbar from './Navbar'
+import Navbarsmall from './Navbarsmall'
 import Question from './Question'
+import Answer from './Answer'
+import Logout from './Logout'
 
-export default function Layout() {
+export default function Layout({ active }) {
     return (
-        <div className='min-h-screen bg-gradient-to-b from-red-700  via-red-500 to-red-300'>
-            <div className='grid grid-cols-8'>
-            <div className='col-span-1  border-black min-h-screen bg-white'></div>
-            <div className='col-span-3 border-2 border-black'>
-                <Question />
-            </div>
-            <div className='col-span-3 border-2 border-black'>
-                <Answer />
-            </div>
-            <div className='col-span-1  border-black bg-white'></div>
+        <>
+            <div className=''>
+                <div className='lg:grid lg:grid-cols-12 lg:visible hidden'>
+                    <div className=' left-0 fixed bg-white min-h-screen shadow-2xl'>
+                        <Navbar active={active} />
+                    </div>
+                    <div className='col-span-3  border-black bg-gray-100'>
+
+                    </div>
+
+                    <div className='col-span-8 -mt-5 bg-gray-100'>
+                        {
+                            active ?
+                                <Answer />
+                                :
+                                <Question />
+                        }
+                    </div>
+
+                    <div className='col-span-1  border-black bg-gray-100'>
+                        <Logout />
+
+                    </div>
+                </div>
+                <div className='lg:hidden top-0'>
+                    <div>
+                        {
+                            active ?
+                            <Answer />
+                            :
+                            <Question />
+                        }
+                        
+                    </div>
+                    <div className='fixed  bg-white border w-full overflow-hidden bottom-0'>
+
+                    <Navbarsmall active={active}/>
+                   
+                    </div>
+                </div>
 
             </div>
-
-        </div>
+        </>
     )
 }
