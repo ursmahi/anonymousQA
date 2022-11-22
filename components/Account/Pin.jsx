@@ -12,17 +12,16 @@ export default function Pin({ loginString, defPin }) {
             setOpenAccount(true)
             sessionStorage.setItem("userpin",pin);
         }
-        console.log(`Pin is ${pin} and Actual Pin is ${ActualPin}`)
     }
     React.useEffect(() => {
         const str = localStorage.getItem('loginString');
         getAccount(str).then((res) => {
             if (res.loginString === str) {
                 setActualPin(res.userpin)
-                console.log(res)
+                
             }
         }).catch((err) => {
-            console.log(err)
+            
         }
         )
 

@@ -38,7 +38,7 @@ export default function Askanything({uniqueID, question }) {
                         (e) => {
                             if(e.target.value.length <250){
 
-                                setAnswer(e.target.value)
+                                setAnswer(e.target.value.trim())
                             }
                         }
                     } className=' rounded-2xl bg-indigo-400 text-xl font-mono resize-none  border-gray-300  h-32 sm:h-40 w-full p-3 sm:p-5  overflow-hidden focus:outline-none placeholder:font-semibold placeholder:text-2xl placeholder:text-white placeholder:opacity-50' placeholder='send me anonymous messages…' />

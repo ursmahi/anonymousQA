@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { React, useState, useEffect } from 'react'
 import { addQuestion, deleteQuestion } from './../../../utils/pocketbase'
+import { RiDeleteBin4Line } from 'react-icons/ri'
+import { MdOutlineContentCopy } from 'react-icons/md'
+import { FiLink } from 'react-icons/fi'
+import {AiOutlineSend} from 'react-icons/ai'
 export default function Question() {
   const [question, setQuestion] = useState('');
   const [questionList, setQuestionList] = useState([]);
 
-  // console.log(getQuestions(loginString));
   const generateAlphaNumeric = (l) => {
     let r = '';
     let c = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -55,62 +58,85 @@ export default function Question() {
       <div className='m-1 relative'>
         <div className='h-16 '>
         </div>
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col items-center justify-center'>
 
-        <textarea value={question} onChange={(e) => {
-          if (e.target.value.length <= 200) {
-            setQuestion(e.target.value)
+          <textarea value={question} onChange={(e) => {
+            if (e.target.value.length <= 200) {
+              
+              setQuestion(e.target.value.trim())
+            }
+          }}
+          onKeyUp={
+            (e)=>{
+
+              if( question  && e.key=='Enter'){
+                handleQuestionSubmit(e)
+              }
+            }
           }
-          else {
-            alert('max 200 characters')
-          }
-        }} className=' rounded-2xl drop-shadow-2xl bg-white text-xl font-semibold  border-gray-300  h-32 sm:h-40 w-11/12 sm:w-8/12 p-3 sm:p-5 resize-none focus:outline-none placeholder:font-semibold placeholder:text-2xl placeholder:text-black placeholder:opacity-50' placeholder='Your Question..' />
-        <button onClick={(e) => { handleQuestionSubmit(e) }} className={` text-white bg-gray-800 hove:bg-black rounded-xl p-3 text-sm font-semibold  m-2 float-right ${question === '' ? 'hidden' : ''}`}>ADD Your Question</button>
+          className={` rounded-t-2xl  bg-white text-xl font-semibold  border-gray-300 overflow-hidden h-32 sm:h-40 w-11/12 sm:w-8/12 p-3 sm:p-5 resize-none focus:outline-none placeholder:font-semibold placeholder:text-2xl placeholder:text-black placeholder:opacity-50 ${question === '' ? 'rounded-b-2xl shadow-2xl' : ''}`} placeholder='Your Question..' />
+          <div className=' bg-white   rounded-b-2xl w-11/12 sm:w-8/12'>
+
+          <button onClick={(e) => { handleQuestionSubmit(e) }} className={` float-right p-5  ${question === '' ? 'hidden' : ''}`}>
+            <AiOutlineSend size={40}/>
+            </button>
+          </div>
         </div>
       </div>
-      <div className='h-16'>
+      <div className={`${question === '' ? 'h-36' : 'h-16'}`}>
       </div>
       <div className='m-1 min-h-screen'>
-        { questionList.length ?
-        <p className='text-center font-semibold underline'> Your Questions  </p>
-      :
-      <p></p>
-      }
-      <div className='mt-5 flex flex-col items-center  '>
-        {
-          questionList.map((question, index) => {
-            return (
-                <div className='bg-white w-11/12  sm:w-8/12  p-2 border' key={index}>
+        {questionList.length ?
+          <p className='text-center font-semibold underline'> Your Questions  </p>
+          :
+          <p></p>
+        }
+        <div className='mt-5 flex flex-col items-center  '>
+          {
+            questionList.map((question, index) => {
+              return (
+                <div className='bg-white w-11/12 rounded-lg drop-shadow-lg  sm:w-8/12  p-2 mb-5' key={index}>
                   <div className=''>
 
-                    <p className='text-sm font-semibold mb-3'>{question.question}</p>
-                    <span className='text-xs font-semibold'>LINK : </span>
-                    <span className='text-xs font-mono'>http:localhost:3000/{question.questionID}</span>
-                    <div className='mt-3'>
-                      <span>
-                        <button className=' bg-gray-800 hover:bg-black hover:shadow-lg text-white rounded-xl p-2 text-sm font-semibold  m-2 float-left' title='Click Here to DELETE THE LINK'
-                          onClick={() => {
-                            handleQuestionDelete(question.questionID, index);
-                          }}
-                        >DELETE</button>
-                      </span>
+                    <p className='text-sm p-2 font-bold mb-3'>{question.question}</p>
+                    <div className='flex mt-5 items-center hover:cursor-pointer' 
+                    onClick={() => {
+                      navigator.clipboard.writeText(`http:localhost:3000/${question.questionID}`);
+                    }}
+                    >
+                      <span className='text-xs font-semibold mr-2'><FiLink size={20} /> </span>
+                      <span className='text-sm font-mono'>http:localhost:3000/{question.questionID}</span>
+                    </div>
+                    <div className='mt-5'>
                       <span >
-                        <button className=' bg-gray-800 hover:bg-black  hover:shadow-lg text-white rounded-xl p-2 text-sm font-semibold  m-2 float-right' title='Click Here to COPY The Question Link'
+                        <button className='hover:text-blue-600 m-2 float-left' title='COPY LINK'
                           onClick={() => {
                             navigator.clipboard.writeText(`http:localhost:3000/${question.questionID}`);
                           }}
-                        >COPY LINK</button>
+                        >
+                          <MdOutlineContentCopy size={30} />
+                        </button>
                       </span>
+                      <span>
+                        <button className='hover:text-red-500 m-2 float-right' title='DELETE'
+                          onClick={() => {
+                            handleQuestionDelete(question.questionID, index);
+                          }}
+                        >
+                          <RiDeleteBin4Line size={30} />
+                        </button>
+                      </span>
+
                     </div>
                   </div>
                   <div className='h-16'>
 
                   </div>
-              </div>
+                </div>
+              )
+            }
             )
           }
-          )
-        }
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Login from '../components/Account/Login' 
-const Home= () => {
+import Landingpage from '../components/Data/public/Landingpage'
+const Home = () => {
   return (
     <div className="">
       <Head>
@@ -9,7 +9,7 @@ const Home= () => {
       </Head>
 
       <main>
-      <Login />
+        <Landingpage />
       </main>
 
       {/* <footer className="flex h-24 w-full items-center justify-center border-t">

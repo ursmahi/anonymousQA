@@ -4,10 +4,10 @@ export default function Individualresponse({ data }) {
     const [res, sentRes] = React.useState(data.responses);
     return (
         <div className=''>
-            <button className='bg-black text-white p-3 -mt-3 rounded-2xl' onClick={
+            <button className=' text-black text-xl p-2 -mt-3 hover:bg-gray-500 hover:rounded-xl hover:text-white ' onClick={
                 () => { window.location.reload() }
             }>
-                BACK
+                {'> BACK'}
             </button>
             <div className='h-16'>
 
