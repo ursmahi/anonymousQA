@@ -18,12 +18,24 @@ export default function question({ uniqueID, question }) {
 }
 
 export async function getServerSideProps(context) {
+    const { req,params } = context;
+    let axios_url =' '
+    if (req) {
+      let host = req.headers.host // will give you localhost:3000
+      if (host.startsWith("localhost")){
+        axios_url = `http://${host}`
+      }
+      else{
+        axios_url = `https://${host}`
+  
+      }
+    }
     const { questionID } = context.query;
-    const res = await axios.get(`http://localhost:3000/api/qid`)
+    const res = await axios.get(`${axios_url}/api/qid`)
     const data = await res.data;
 
     if (data.includes(questionID)) {
-        const response = await axios.get(`http://localhost:3000/api/question?qid=${questionID}`)
+        const response = await axios.get(`${axios_url}/api/question?qid=${questionID}`)
         const question = await response.data.question;
         const uniqueID = await response.data.uniqueID;
         return { props: { uniqueID: uniqueID, question: question } }
