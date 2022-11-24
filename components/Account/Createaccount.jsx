@@ -1,5 +1,6 @@
 import React from 'react'
 import Createpin from './Createpin'
+import { MdOutlineContentCopy } from 'react-icons/md'
 export default function Createaccount() {
 
     const [createString, setCreateString] = React.useState('')
@@ -27,23 +28,29 @@ export default function Createaccount() {
             openPin ? (
                 <Createpin loginString={createString} />
             ) : (
-                <div className='flex bg-yellow-200  min-h-screen flex-col items-center justify-center py-2'>
-                    <p className='text-xl'>Your New Account created</p>
-                    <p>Copy below code and sotre to for future login</p>
-                    <div className='mt-5 mb-5 border-2 border-black rounded-xl flex justify-between'>
-                        <p className='m-2'>{createString}</p>
-                        <button title='CLICK TO COPY' className='bg-blue-500 text-white p-2 rounded-full border-0 m-2'
-                            onClick={() => {
-                                navigator.clipboard.writeText(createString);
-                            }}>
-                            Copy
-                        </button>
-                    </div>
-                    NOW SET YOUR ACCOUNT LOGIN PIN
-                    <button className='mt-2 bg-blue-600 rounded-xl p-2 text-white hover:bg-blue-800'
-                        onClick={()=>{setOpenPin(true)}}
-                    >SET PIN</button>
+                <div className='flex bg-gray-100  min-h-screen flex-col items-center justify-center py-2'>
+                    <div className=' sm:rounded-xl drop-shadow-lg bg-white p-2 text-center'>
 
+                        <p className='text-xl mt-5'>Your Account has been created successfully.</p>
+                        <p className='mt-5'>Copy the code below and store it  for future login.</p>
+                        <div className=' mb-5  rounded-xl flex justify-center items-center'>
+                            <p className='m-2 hover:cursor-pointer' onClick={() => {
+                                    navigator.clipboard.writeText(createString);
+                                }}>{createString}</p>
+                            <button title='CLICK TO COPY' className=' p-2   m-2'
+                                onClick={() => {
+                                    navigator.clipboard.writeText(createString);
+                                }}>
+                                <MdOutlineContentCopy size={30} className='hover:fill-blue-500' />
+                            </button>
+                        </div>
+                        NOW SET YOUR ACCOUNT LOGIN PIN
+                        <div className='h-8'></div>
+                        <button className='mt-2 text-black text-xl border-2 border-gray-500 rounded-xl  p-2  hover:bg-gray-500 hover:rounded-xl hover:text-white'
+                            onClick={() => { setOpenPin(true) }}
+                        >SET PIN</button>
+
+                    </div>
                 </div>
             )}
         </>

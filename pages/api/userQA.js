@@ -20,6 +20,7 @@ export default async function handler(req, res) {
                         return {
                         questionID: item.questionID,
                         question: item.question,
+                        createdAt: item.created
                         }
                     });
                     res.status(200).json(data);
@@ -32,6 +33,7 @@ export default async function handler(req, res) {
                         questionID: item.questionID,
                         question: item.question,
                         answers: item.answers,
+                        createdAt: item.created
                     }
                 });
                 res.status(200).json(data);

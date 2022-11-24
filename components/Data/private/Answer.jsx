@@ -4,6 +4,7 @@ import { MdOutlineModeComment } from 'react-icons/md'
 import { RiDeleteBin4Line } from 'react-icons/ri'
 import Individualresponse from './Individualresponse'
 import { addQuestion, deleteQuestion } from './../../../utils/pocketbase'
+import { handelTime } from './../../../utils/handyFunctions'
 
 export default function Answer() {
   const [qaList, setQAList] = React.useState([]);
@@ -33,46 +34,50 @@ export default function Answer() {
     )
   }, []);
   return (
-    <div className='bg-gray-100 mt-0 top-0 sm:min-h-screen'>
+    <div className='bg-gray-100 mt-0 top-0 min-h-screen'>
       <div className='m-1 relative'>
         <div className='h-16 '>
+
         </div>
         {
           active ? <>
 
             {
-              qaList.map((response, index) => {
-                return (
-                  <div className='flex flex-col  mt-5' key={index}>
-                    <div className='flex items-center  justify-center'>
-                      <div className='bg-white rounded-lg drop-shadow-lg font-bold resize-none p-2 w-11/12 sm:w-8/12' >
-                        {response.question}
-                        <div className=' flex justify-between mt-5'>
-                          <div className=' flex hover:cursor-pointer' onClick={
-                            () => {
-                              setSendData({
-                                question: response.question,
-                                responses: response.answers["answers"]
-                              });
-                              setActive(false);
-                            }
-                          }>
-                            <MdOutlineModeComment size={30} className='fill-black mt-5 ml-5' />
-                            <span className='mt-2 text-gray-800'>
-                              {response.answers["answers"].length ? response.answers["answers"].length : ''}
-                            </span>
+              qaList.length === 0 ? <p className='text-center'> Add a Question first to check the Responses </p>
+                :
+                qaList.map((response, index) => {
+                  return (
+                    <div className='flex flex-col  mt-5' key={index}>
+                      <div className='flex items-center  justify-center'>
+                        <div className='bg-white rounded-lg drop-shadow-lg font-bold resize-none p-2 w-11/12 sm:w-9/12' >
+                          {response.question}
+                          <div className=' flex justify-between mt-5'>
+                            <div className=' flex hover:cursor-pointer' onClick={
+                              () => {
+                                setSendData({
+                                  question: response.question,
+                                  responses: response.answers["answers"]
+                                });
+                                setActive(false);
+                              }
+                            }>
+                              <MdOutlineModeComment size={30} className='fill-black mt-5 ml-5' />
+                              <span className='mt-2 text-gray-800'>
+                                {response.answers["answers"].length ? response.answers["answers"].length : ''}
+                              </span>
+                            </div>
+                            <div className='mt-4 mr-4 right-0 '>
+                              <RiDeleteBin4Line size={30} className='hover:fill-red-600 hover:cursor-pointer'
+                                onClick={() => {
+                                  handleQuestionDelete(response.questionID, index);
+                                }}
+                              />
+                            </div>
                           </div>
-                          <div className='mt-4 mr-4 right-0 '>
-                            <RiDeleteBin4Line size={30} className='hover:fill-red-600 hover:cursor-pointer'
-                              onClick={() => {
-                                handleQuestionDelete(response.questionID, index);
-                              }}
-                            />
-                          </div>
+                          <p className='text-center text-sm font-normal opacity-80'>{handelTime(response.createdAt)}</p>
                         </div>
                       </div>
-                    </div>
-                    {/* {
+                      {/* {
                   response.answers["answers"].map((ans,index) => {
                     return(
 
@@ -80,14 +85,14 @@ export default function Answer() {
                     )
                   })
                 } */}
-                  </div>
+                    </div>
+                  )
+                }
                 )
-              }
-              )
             }
           </>
-          :
-          <Individualresponse data={sendData}/>
+            :
+            <Individualresponse data={sendData} />
         }
       </div>
     </div>

@@ -6,7 +6,11 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'spin-slow': 'spin 0.2s linear 0.3s',
+      }
+    },
   },
   plugins: [],
 }

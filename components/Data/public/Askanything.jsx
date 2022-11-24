@@ -1,21 +1,33 @@
 import {React, useState} from 'react'
 import {answerQuestion} from './../../../utils/pocketbase'
+import Loader from './../../Animation/Loader'
 
 export default function Askanything({uniqueID, question }) {
     const [answer, setAnswer] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleAnswerSubmit = (e) => {
+    const handleAnswerSubmit = async(e) => {
         if (answer !== '') {
             e.preventDefault();
             setAnswer('');
             let sendingAnswer = answer;
-            answerQuestion(uniqueID, sendingAnswer);
-            // window.location.replace('/sent')
+            await answerQuestion(uniqueID, sendingAnswer).then((res)=>{
+                setLoading(true);
+                setTimeout(() => {
+                    window.location.replace('/sent')
+                },2000);
+            }).catch((error)=>{
+                console.log(error)
+                
+            })
         }
     }
 
 
     return (
+        <>
+        {
+            loading? <Loader/>:
         <div className='min-h-screen bg-gradient-to-b from-purple-700  via-indigo-500 to-purple-300'>
 
             <div className='h-24'>
@@ -38,7 +50,7 @@ export default function Askanything({uniqueID, question }) {
                         (e) => {
                             if(e.target.value.length <250){
 
-                                setAnswer(e.target.value.trim())
+                                setAnswer(e.target.value.trimStart())
                             }
                         }
                     } className=' rounded-2xl bg-indigo-400 text-xl font-mono resize-none  border-gray-300  h-32 sm:h-40 w-full p-3 sm:p-5  overflow-hidden focus:outline-none placeholder:font-semibold placeholder:text-2xl placeholder:text-white placeholder:opacity-50' placeholder='send me anonymous messages…' />
@@ -57,5 +69,7 @@ export default function Askanything({uniqueID, question }) {
             </div>
         </div>
 
+                }
+                </>
     )
 }

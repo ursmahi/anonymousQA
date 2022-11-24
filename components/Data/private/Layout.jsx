@@ -17,16 +17,16 @@ export default function Layout({ active }) {
 
                     </div>
 
-                    <div className='col-span-8 -mt-5 bg-gray-100'>
+                    <div className='col-span-7  -mt-5 bg-gray-100'>
                         {
                             active ?
-                                <Answer />
-                                :
-                                <Question />
+                            <Answer />
+                            :
+                            <Question />
                         }
                     </div>
 
-                    <div className='col-span-1  border-black bg-gray-100'>
+                    <div className='col-span-2  bg-gray-100'>
                         <Logout />
 
                     </div>
@@ -39,7 +39,7 @@ export default function Layout({ active }) {
                             :
                             <Question />
                         }
-                        
+                        <div className='h-24 bg-gray-100 -mt-2'></div>
                     </div>
                     <div className='fixed  bg-white border w-full overflow-hidden bottom-0'>
 

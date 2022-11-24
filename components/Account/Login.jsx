@@ -11,6 +11,8 @@ export default function Login() {
   const [getLocalString, setGetLocalString] = React.useState('')
   const [openPin, setOpenPin] = React.useState(false)
   const [defPin, setdefPin] = React.useState('')
+  const [alert, setAlert] = React.useState(false)
+  const [alertMessage, setAlertMessage] = React.useState('Not A Valid Login String')
 
 
   const loginAccount = () => {
@@ -21,7 +23,18 @@ export default function Login() {
         localStorage.setItem('loginString', loginString);
         sessionStorage.clear();
       }
-    })
+      else{
+        setAlert(true)
+        setTimeout(() => {
+          setAlert(false)
+        }, 2000);
+      }
+    }).catch((err) => {
+      setAlert(true)
+      setTimeout(() => {
+        setAlert(false)
+      }, 2000);
+    });
   }
 
   React.useEffect(() => {
@@ -49,16 +62,43 @@ export default function Login() {
             ) : (
               <div className='flex min-h-screen flex-col items-center justify-center py-2'>
                 <div className='flex flex-col'>
-                  <input type="text" placeholder="Your Login String" className='mb-5 rounded-lg p-2 border-2 border-blue-400 hover:border-red-500'
-                    onChange={(e) => { setLoginString(e.target.value) }} />
+                  <input type="password" placeholder="Your Login String" className='mb-5 rounded-lg p-2 border-2 border-blue-400 hover:border-red-500'
+                    onChange={(e) => { setLoginString(e.target.value) }}
+                    onKeyUp={
+                      (e) => {
+                        if (e.key == 'Enter' && loginString.length > 0 ) {
+                          loginAccount()
+                        }
+                        else if(e.key == 'Enter' && loginString.length == 0){
+                          setAlert(true)
+                          setAlertMessage('Please Enter Login String')
+                          setTimeout(() => {
+                            setAlert(false)
+                          }
+                            , 3000)
+                        }
+                        else{
+                          setAlert(false)
+                        }
+                      }
+                    }
+                  />
 
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => {
-                      if(loginString.length > 0){
+                      if (loginString.length > 0) {
 
                         loginAccount()
-                      }}
-                    }>
+                      }
+                      else {
+                        setAlert(true)
+                        setTimeout(() => {
+                          setAlert(false)
+                        }
+                        , 3000)
+                      }
+                    }
+                  }>
                     Login
                   </button>
                   <div className='mt-5'>
@@ -67,6 +107,7 @@ export default function Login() {
                   <button onClick={() => { setCreateString(true) }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Create Account
                   </button>
+                {alert ? <p className='text-red-500  text-center'> {alertMessage}</p> : <div className='h-6'></div>}
                 </div>
               </div>
             )}

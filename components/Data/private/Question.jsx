@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { React, useState, useEffect } from 'react'
 import { addQuestion, deleteQuestion } from './../../../utils/pocketbase'
+import { handelTime } from './../../../utils/handyFunctions'
 import { RiDeleteBin4Line } from 'react-icons/ri'
 import { MdOutlineContentCopy } from 'react-icons/md'
 import { FiLink } from 'react-icons/fi'
-import {AiOutlineSend} from 'react-icons/ai'
+import { AiOutlineSend } from 'react-icons/ai'
+
 export default function Question() {
   const [question, setQuestion] = useState('');
   const [questionList, setQuestionList] = useState([]);
@@ -43,6 +45,8 @@ export default function Question() {
     deleteQuestion(localStorage.getItem('loginString'), questionID);
 
   }
+
+
   useEffect(() => {
     const loginString = localStorage.getItem('loginString');
     axios.get(`/api/userQA?loginString=${loginString}&questionlist=true`)
@@ -54,7 +58,6 @@ export default function Question() {
 
   return (
     <div className='bg-gray-100 mt-0 top-0'>
-
       <div className='m-1 relative'>
         <div className='h-16 '>
         </div>
@@ -62,23 +65,23 @@ export default function Question() {
 
           <textarea value={question} onChange={(e) => {
             if (e.target.value.length <= 200) {
-              
-              setQuestion(e.target.value.trim())
+
+              setQuestion(e.target.value.trimStart())
             }
           }}
-          onKeyUp={
-            (e)=>{
+            onKeyUp={
+              (e) => {
 
-              if( question  && e.key=='Enter'){
-                handleQuestionSubmit(e)
+                if (question && e.key == 'Enter') {
+                  handleQuestionSubmit(e)
+                }
               }
             }
-          }
-          className={` rounded-t-2xl  bg-white text-xl font-semibold  border-gray-300 overflow-hidden h-32 sm:h-40 w-11/12 sm:w-8/12 p-3 sm:p-5 resize-none focus:outline-none placeholder:font-semibold placeholder:text-2xl placeholder:text-black placeholder:opacity-50 ${question === '' ? 'rounded-b-2xl shadow-2xl' : ''}`} placeholder='Your Question..' />
-          <div className=' bg-white   rounded-b-2xl w-11/12 sm:w-8/12'>
+            className={` rounded-t-2xl  bg-white text-xl font-semibold  border-gray-300 overflow-hidden h-32 sm:h-40 w-11/12 sm:w-9/12 p-3 sm:p-5 resize-none focus:outline-none placeholder:font-semibold placeholder:text-2xl placeholder:text-black placeholder:opacity-50 ${question === '' ? 'rounded-b-2xl shadow-2xl' : ''}`} placeholder='Your Question..' />
+          <div className=' bg-white   rounded-b-2xl w-11/12 sm:w-9/12'>
 
-          <button onClick={(e) => { handleQuestionSubmit(e) }} className={` float-right p-5  ${question === '' ? 'hidden' : ''}`}>
-            <AiOutlineSend size={40}/>
+            <button onClick={(e) => { handleQuestionSubmit(e) }} className={` float-right p-5  ${question === '' ? 'hidden' : ''}`}>
+              <AiOutlineSend size={40} />
             </button>
           </div>
         </div>
@@ -95,23 +98,23 @@ export default function Question() {
           {
             questionList.map((question, index) => {
               return (
-                <div className='bg-white w-11/12 rounded-lg drop-shadow-lg  sm:w-8/12  p-2 mb-5' key={index}>
+                <div className='bg-white w-11/12 rounded-lg drop-shadow-lg  sm:w-9/12  p-2 mb-5' key={index}>
                   <div className=''>
 
                     <p className='text-sm p-2 font-bold mb-3'>{question.question}</p>
-                    <div className='flex mt-5 items-center hover:cursor-pointer' 
-                    onClick={() => {
-                      navigator.clipboard.writeText(`http:localhost:3000/${question.questionID}`);
-                    }}
+                    <div className='flex mt-5 items-center hover:cursor-pointer'
+                      onClick={() => {
+                        navigator.clipboard.writeText(`http:localhost:3000/${question.questionID}`);
+                      }}
                     >
                       <span className='text-xs font-semibold mr-2'><FiLink size={20} /> </span>
-                      <span className='text-sm font-mono'>http:localhost:3000/{question.questionID}</span>
+                      <span className='text-sm font-mono'>{window.location.href.split('question')[0]}{question.questionID}</span>
                     </div>
                     <div className='mt-5'>
                       <span >
                         <button className='hover:text-blue-600 m-2 float-left' title='COPY LINK'
                           onClick={() => {
-                            navigator.clipboard.writeText(`http:localhost:3000/${question.questionID}`);
+                            navigator.clipboard.writeText(`${window.location.href.split('question')[0]}${question.questionID}`);
                           }}
                         >
                           <MdOutlineContentCopy size={30} />
@@ -126,12 +129,12 @@ export default function Question() {
                           <RiDeleteBin4Line size={30} />
                         </button>
                       </span>
-
                     </div>
                   </div>
                   <div className='h-16'>
 
                   </div>
+                  <p className=' text-center text-sm opacity-80 -mt-5'>{handelTime(question.createdAt).toLocaleString()}</p>
                 </div>
               )
             }

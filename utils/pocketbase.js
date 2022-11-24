@@ -2,19 +2,15 @@ import PocketBase from 'pocketbase';
 const client = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
 
 
-export function createNewAccount(loginString, pin) {
-    const out = client.records.create('userData', {
+export async function createNewAccount(loginString, pin) {
+    const out = await client.records.create('userData', {
         loginString: loginString,
         userpin: pin,
         questionIDS: {
             "ids": []
         }
     });
-    out.then((res) => {
-        if (res.status === 200) {
-            console.log('Account created successfully');
-        }
-    });
+    return out;
 }
 
 export function changeNewPin(loginString, pin) {
@@ -80,15 +76,20 @@ export const addQuestion = (loginString, questionID, question) => {
 
 }
 
-export const answerQuestion = (uniqueID, answer) => {
-    client.records.getOne('qa', `${uniqueID}`, {
+export const answerQuestion = async (uniqueID, answer) => {
+    await client.records.getOne('qa', `${uniqueID}`, {
         expand: 'some_relation'
     }).then((res) => {
         const qID = res.answers;
-        const data = { "answers": [answer, ...qID.answers] }
-        client.records.update('qa', `${uniqueID}`, {
+        // get time and date in UTC
+        const date = new Date();
+        const time = date.toUTCString();
+        const data = { "answers": [{ answer: answer, time: time }, ...qID.answers] }
+        // const data = { "answers": [answer, ...qID.answers] }
+        const out= client.records.update('qa', `${uniqueID}`, {
             answers: data
         });
+        return out;
     });
 
 }
