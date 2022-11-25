@@ -40,6 +40,7 @@ export default async function handler(req, res) {
             }
             });
         } else {
+            console.log("NOT FOUND")
             res.status(200).json([]);
         }
     }
