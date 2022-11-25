@@ -9,6 +9,7 @@ export default async function handler(req, res) {
         sort: '-created',
     }).then((result) => {
         const user = result.items.find(item => item.loginString === loginString);
+        console.log(`user: ${user}`)
         if (user) {
             const questionIDS = user.questionIDS.ids;
             client.records.getList('qa', 1, 50, {
