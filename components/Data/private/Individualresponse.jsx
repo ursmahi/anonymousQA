@@ -7,9 +7,9 @@ export default function Individualresponse({ data }) {
     const [res, sentRes] = React.useState(data.responses);
     return (
         <div className='mb-2'>
-            <div className='bg-gray-100 w-full mt-4 top-0 fixed z-10'>
+            <div className='bg-gray-100 w-full  top-0 fixed z-10'>
 
-                <button className=' text-black text-xl flex mt-1 items-center p-2  hover:bg-gray-500 hover:rounded-xl hover:text-white ' onClick={
+                <button className=' text-black text-xl mt-5 flex items-center p-2  hover:bg-gray-500 hover:rounded-xl hover:text-white ' onClick={
                     () => { window.location.reload() }
                 }>
                     <MdOutlineArrowBackIosNew className='mr-2' /> BACK
