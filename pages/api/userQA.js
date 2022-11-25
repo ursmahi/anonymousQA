@@ -8,7 +8,9 @@ export default async function handler(req, res) {
     await client.records.getList('userData', 1, 10000, {
         sort: '-created',
     }).then((result) => {
+        console.log(`result: ${result}`)
         const user = result.items.find(item => item.loginString === loginString);
+        console.log(`user: ${user}`)
         if (user) {
             const questionIDS = user.questionIDS.ids;
             client.records.getList('qa', 1, 50, {
@@ -40,6 +42,7 @@ export default async function handler(req, res) {
             }
             });
         } else {
+            console.log("NOT FOUND")
             res.status(200).json([]);
         }
     }
