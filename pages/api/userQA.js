@@ -8,6 +8,7 @@ export default async function handler(req, res) {
     client.records.getList('userData', 1, 1, {
         sort: '-created',
     }).then((result) => {
+        console.log(`result: ${result}`)
         const user = result.items.find(item => item.loginString === loginString);
         console.log(`user: ${user}`)
         if (user) {
