@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     const loginString = req.query.loginString;
     const questionlist = req.query.questionlist;
     const qa = req.query.qa;
-    client.records.getList('userData', 1, 1, {
+    await client.records.getList('userData', 1, 10000, {
         sort: '-created',
     }).then((result) => {
         const user = result.items.find(item => item.loginString === loginString);
@@ -44,4 +44,5 @@ export default async function handler(req, res) {
         }
     }
     );
+    // res.status(200).json([])
 }

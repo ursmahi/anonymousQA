@@ -2,7 +2,7 @@ import PocketBase from 'pocketbase';
 const client = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL);
 
 export default async function handler(req, res) {
-    const list = client.records.getList('qa', 1,200, {
+    const list = client.records.getList('qa', 1,10000, {
         sort: '-created',
     });
     list.then((result) => {
